@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minería Sostenible | Desarrollo Profesional</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* HEADER / NAVEGACIÓN */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            background: rgba(0, 0, 0, 0.95);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 2em;
+            font-weight: bold;
+            color: #ff6b35;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1em;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #ff6b35;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #ff6b35;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .lang-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .lang-btn {
+            padding: 8px 15px;
+            border: 1px solid white;
+            background: transparent;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn:hover {
+            background: #ff6b35;
+            border-color: #ff6b35;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0,0,0,0.6), rgba(255,107,53,0.3)),
+                        url('https://images.unsplash.com/photo-1612892483236-52d32a0e0ac1?w=1920&h=1080&fit=crop') center/cover;
+            animation: zoomIn 20s ease-in-out infinite alternate;
+        }
+
+        @keyframes zoomIn {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: left;
+            max-width: 1200px;
+            padding: 0 60px;
+        }
+
+        .hero-title {
+            font-size: 4.5em;
+            font-weight: 900;
+            color: white;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 10px rgba(0,0,0,0.5);
+        }
+
+        .hero-title span {
+            display: inline-block;
+            background: #ff6b35;
+            padding: 10px 20px;
+            margin: 5px 0;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5em;
+            color: white;
+            margin-bottom: 40px;
+            max-width: 600px;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        }
+
+        .hero-subtitle span {
+            background: #ff6b35;
+            padding: 5px 10px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 18px 45px;
+            background: #ff6b35;
+            color: white;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: bold;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(255,107,53,0.4);
+        }
+
+        .cta-button:hover {
+            background: #ff8555;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(255,107,53,0.6);
+        }
+
+        /* SECCIÓN NOSOTROS */
+        .about-section {
+            padding: 100px 60px;
+            background: white;
+        }
+
+        .team-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 60px;
+        }
+
+        .team-member {
+            background: #f9f9f9;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.15);
+        }
+
+        .member-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+        .member-info {
+            padding: 40px;
+        }
+
+        .member-name {
+            font-size: 2em;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 10px;
+        }
+
+        .member-location {
+            font-size: 1.1em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .member-contact {
+            font-size: 0.95em;
+            color: #888;
+            margin-bottom: 20px;
+        }
+
+        .member-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #ff6b35;
+        }
+
+        .member-description {
+            font-size: 1em;
+            line-height: 1.8;
+            color: #555;
+            text-align: justify;
+        }
+
+        /* SECCIÓN CON GRID */
+        .gallery-section {
+            padding: 100px 60px;
+            background: #f5f5f5;
+        }
+
+        .section-title {
+            font-size: 3em;
+            text-align: center;
+            margin-bottom: 60px;
+            color: #333;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(3, 250px);
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .grid-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .grid-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .grid-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .grid-item:hover img {
+            transform: scale(1.15);
+        }
+
+        .grid-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.9));
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 25px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .grid-item:hover .grid-overlay {
+            opacity: 1;
+        }
+
+        .grid-overlay h3 {
+            color: white;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .grid-overlay p {
+            color: #ddd;
+            font-size: 1em;
+        }
+
+        /* DISEÑO DINÁMICO CON GRID-COLUMN Y GRID-ROW */
+        .grid-item:nth-child(1) {
+            grid-column: 1 / 3;
+            grid-row: 1 / 3;
+        }
+
+        .grid-item:nth-child(2) {
+            grid-column: 3 / 4;
+            grid-row: 1 / 2;
+        }
+
+        .grid-item:nth-child(3) {
+            grid-column: 4 / 5;
+            grid-row: 1 / 2;
+        }
+
+        .grid-item:nth-child(4) {
+            grid-column: 3 / 5;
+            grid-row: 2 / 3;
+        }
+
+        .grid-item:nth-child(5) {
+            grid-column: 1 / 2;
+            grid-row: 3 / 4;
+        }
+
+        .grid-item:nth-child(6) {
+            grid-column: 2 / 4;
+            grid-row: 3 / 4;
+        }
+
+        .grid-item:nth-child(7) {
+            grid-column: 4 / 5;
+            grid-row: 3 / 4;
+        }
+
+        /* SECCIÓN HERO ALTERNATIVA */
+        .hero-alt {
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
+                        url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1920&h=1080&fit=crop') center/cover;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-alt h2 {
+            font-size: 4em;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .hero-alt p {
+            font-size: 1.5em;
+            margin-bottom: 30px;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 60px;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto 40px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 20px;
+            color: #ff6b35;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #ff6b35;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            nav {
+                padding: 15px 30px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: 2.5em;
+            }
+
+            .team-container {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: repeat(7, 200px);
+            }
+
+            .grid-item:nth-child(1),
+            .grid-item:nth-child(2),
+            .grid-item:nth-child(3),
+            .grid-item:nth-child(4),
+            .grid-item:nth-child(5),
+            .grid-item:nth-child(6),
+            .grid-item:nth-child(7) {
+                grid-column: 1 / 2;
+                grid-row: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header id="header">
+        <nav>
+            <div class="logo">MINEREX</div>
+            <ul class="nav-links">
+                <li><a href="#nosotros">Nosotros</a></li>
+                <li><a href="#teorias">Teorías</a></li>
+                <li><a href="#etica">Ética Minera</a></li>
+                <li><a href="#proyectos">Proyectos</a></li>
+                <li><a href="#sostenibilidad">Sostenibilidad</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+            <div class="lang-buttons">
+                <button class="lang-btn">ES</button>
+                <button class="lang-btn">EN</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- HERO PRINCIPAL -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span>Minería que se mueve</span><br>
+                <span>con el mundo</span>
+            </h1>
+            <p class="hero-subtitle">
+                <span>Nuestro propósito es integrar la minería</span> a un mundo en constante cambio como una oportunidad para el desarrollo sostenible
+            </p>
+            <a href="#contacto" class="cta-button">Descubre cómo</a>
+        </div>
+    </section>
+
+    <!-- SECCIÓN NOSOTROS -->
+    <section class="about-section" id="nosotros">
+        <h2 class="section-title">Nosotros</h2>
+        <div class="team-container">
+            <!-- Emerson Harol Coronel Apaza -->
+            <div class="team-member">
+                <img src="https://i.ibb.co/B59y4J9c/coronel-quelaveco.png" alt="Emerson Harol Coronel Apaza" class="member-image">
+                <div class="member-info">
+                    <h3 class="member-name">EMERSON HAROL CORONEL APAZA</h3>
+                    <p class="member-location"><strong>Ubicación:</strong> Juliaca, Perú</p>
+                    <p class="member-contact"><strong>Celular:</strong> +51 950609255 | <strong>Email:</strong> emersonhcoronelapaza@gmail.com</p>
+                    <h4 class="member-title">PERFIL PROFESIONAL</h4>
+                    <p class="member-description">
+                        Estudiante de la Escuela Profesional de Ingeniería de Minas con alta iniciativa y con formación académica sólida y experiencia práctica en entornos mina subterránea. He desarrollado competencias en las operaciones unitarias de perforación y voladura, evaluación del macizo rocoso. Mi primer acercamiento al ámbito laboral en minería subterránea me ha permitido observar y comprender la dinámica de las operaciones mineras, así como me han permitido aplicar conocimientos técnicos en contextos reales. Esta experiencia inicial fortaleció mi interés por el campo minero y me permitió desarrollar habilidades de observación, comunicación y trabajo en equipo, reafirmando mi compromiso con una formación profesional sólida y orientada a la seguridad y eficiencia operativa.
+                        <br><br>
+                        Me caracterizo por mi alta iniciativa, compromiso profesional y vocación de responsabilidad en el cumplimiento de objetivos, con una clara orientación hacia la seguridad, la eficiencia y la mejora continua y sostenible de las operaciones mineras.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Cristian Ito Callata -->
+            <div class="team-member">
+                <img src="https://i.ibb.co/5xcrrMyg/ito-quelaveco.jpg" alt="Cristian Ito Callata" class="member-image">
+                <div class="member-info">
+                    <h3 class="member-name">CRISTIAN ITO CALLATA</h3>
+                    <p class="member-location"><strong>Ubicación:</strong> Juliaca, Perú</p>
+                    <p class="member-contact"><strong>Celular:</strong> +51 950609255 | <strong>Email:</strong> cristianito@gmail.com</p>
+                    <h4 class="member-title">PERFIL PROFESIONAL</h4>
+                    <p class="member-description">
+                        Estudiante de la Escuela Profesional de Ingeniería de Minas con alta iniciativa y con formación académica sólida y experiencia práctica en entornos mina subterránea. He desarrollado competencias en las operaciones unitarias de perforación y voladura, evaluación del macizo rocoso. Mi primer acercamiento al ámbito laboral en minería subterránea me ha permitido observar y comprender la dinámica de las operaciones mineras, así como me han permitido aplicar conocimientos técnicos en contextos reales. Esta experiencia inicial fortaleció mi interés por el campo minero y me permitió desarrollar habilidades de observación, comunicación y trabajo en equipo, reafirmando mi compromiso con una formación profesional sólida y orientada a la seguridad y eficiencia operativa.
+                        <br><br>
+                        Me caracterizo por mi alta iniciativa, compromiso profesional y vocación de responsabilidad en el cumplimiento de objetivos, con una clara orientación hacia la seguridad, la eficiencia y la mejora continua y sostenible de las operaciones mineras.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN TEORÍAS ÉTICAS -->
+    <section class="about-section" id="teorias" style="background: #f5f5f5;">
+        <h2 class="section-title">Teorías</h2>
+        <div class="team-container">
+            <!-- Ética del Bien -->
+            <div class="team-member">
+                <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=400&fit=crop" alt="Consecuencialismo" class="member-image">
+                <div class="member-info">
+                    <h3 class="member-name">ÉTICA DEL BIEN (CONSECUENCIALISMO)</h3>
+                    <h4 class="member-title">MARCO TEÓRICO</h4>
+                    <p class="member-description">
+                        El consecuencialismo evalúa las acciones por sus resultados, considerando correcto lo que produce el mayor bien o las mejores consecuencias. Su marco teórico se centra en maximizar el bienestar colectivo, como en el utilitarismo de Bentham y Mill, donde el placer o la felicidad definen el bien moral independientemente de la intención. Las decisiones se guían por el cálculo de efectos futuros, priorizando el impacto neto positivo sobre la acción en sí.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Ética de lo Justo -->
+            <div class="team-member">
+                <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&h=400&fit=crop" alt="Teoría de la Justicia" class="member-image">
+                <div class="member-info">
+                    <h3 class="member-name">ÉTICA DE LO JUSTO (TEORÍA DE LA JUSTICIA)</h3>
+                    <h4 class="member-title">MARCO TEÓRICO</h4>
+                    <p class="member-description">
+                        La teoría de la justicia, especialmente de John Rawls, propone principios equitativos derivados de un "velo de ignorancia" donde los individuos racionales eligen reglas sin conocer su posición social. Su marco contractual establece dos principios: igual libertad básica para todos y desigualdades permitidas solo si benefician a los menos aventajados, aplicados a instituciones sociales. Esto asegura imparcialidad procesal para una sociedad democrática.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Ética de lo Correcto -->
+            <div class="team-member">
+                <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&h=400&fit=crop" alt="Deontología" class="member-image">
+                <div class="member-info">
+                    <h3 class="member-name">ÉTICA DE LO CORRECTO (DEONTOLOGÍA)</h3>
+                    <h4 class="member-title">MARCO TEÓRICO</h4>
+                    <p class="member-description">
+                        La deontología, o ética del deber, juzga acciones por su conformidad con reglas universales intrínsecas, no por consecuencias, como en Kant con el imperativo categórico. Su marco enfatiza la autonomía racional, imparcialidad y deberes absolutos, donde lo correcto es universalizable y se actúa por obligación moral pura. Principios como el doble efecto permiten fines buenos pese a efectos secundarios no deseados.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN ÉTICA EN LA MINERÍA -->
+    <section class="about-section" id="etica" style="background: white;">
+        <h2 class="section-title">Ética en la Minería</h2>
+        <div class="team-container">
+            <!-- Fundamentos de la Ética Minera -->
+            <div class="team-member">
+                <img src="https://images.unsplash.com/photo-1591696331111-ef9586a5b17a?w=800&h=400&fit=crop" alt="Ética Minera" class="member-image">
+                <div class="member-info">
+                    <h3 class="member-name">⛏️ FUNDAMENTOS DE LA ÉTICA MINERA</h3>
+                    <h4 class="member-title">RESPONSABILIDAD INTEGRAL</h4>
+                    <p class="member-description">
+                        La minería es una industria vital que provee recursos esenciales para el desarrollo económico y social de Chile. Sin embargo, su impacto trasciende lo productivo y económico. La ética en este sector no se limita únicamente a la conducta empresarial, sino que también abarca aspectos clave como la responsabilidad social, la transparencia y la sostenibilidad, todos ellos cruciales para el futuro de la industria.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Responsabilidad Social -->
+            <div class="team-member">
+                <img src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=800&h=400&fit=crop" alt="Comunidades" class="member-image">
+                <div class="member-info">
+                    <h3 class="member-name">🏘️ COMPROMISO CON LAS COMUNIDADES</h3>
+                    <h4 class="member-title">DESARROLLO LOCAL</h4>
+                    <p class="member-description">
+                        Las empresas mineras, con frecuencia, operan en comunidades que dependen directamente de su actividad para su sustento. Por ello, la ética exige un compromiso real con el bienestar de estas comunidades, a través de programas que fomenten el desarrollo local, la educación y la salud. Hoy en día, muchas compañías mineras en Chile están implementando este tipo de iniciativas, lo que da cuenta de un progreso significativo en la forma en que se está trabajando en nuestro país.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Sostenibilidad Ambiental -->
+            <div class="team-member">
+                <img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&h=400&fit=crop" alt="Medio Ambiente" class="member-image">
+                <div class="member-info">
+                    <h3 class="member-name">🌱 SOSTENIBILIDAD AMBIENTAL</h3>
+                    <h4 class="member-title">GESTIÓN RESPONSABLE</h4>
+                    <p class="member-description">
+                        En paralelo, la minería puede generar impactos ambientales significativos si no se realiza de manera responsable. En este sentido, las prácticas éticas incluyen la incorporación de tecnologías sostenibles, la reducción de la huella de carbono y la ejecución de planes de cierre responsables al término de las operaciones, aspectos que además están regulados por la legislación vigente.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Transparencia y Comunicación -->
+            <div class="team-member">
+                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=400&fit=crop" alt="Comunicación" class="member-image">
+                <div class="member-info">
+                    <h3 class="member-name">🗣️ TRANSPARENCIA Y DIÁLOGO</h3>
+                    <h4 class="member-title">COMUNICACIÓN EFECTIVA</h4>
+                    <p class="member-description">
+                        Otro componente esencial de una minería ética es la comunicación transparente y constante con todas las partes interesadas: empleados, comunidades y autoridades. Una comunicación abierta contribuye a construir relaciones de confianza y a prevenir conflictos que, muchas veces, surgen precisamente por la falta de información o de diálogo oportuno.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Cumplimiento Normativo -->
+            <div class="team-member">
+                <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&h=400&fit=crop" alt="Normativa" class="member-image">
+                <div class="member-info">
+                    <h3 class="member-name">⚖️ CUMPLIMIENTO NORMATIVO</h3>
+                    <h4 class="member-title">ESTÁNDARES RIGUROSOS</h4>
+                    <p class="member-description">
+                        Las empresas que se comprometen con la ética también tienden a cumplir con la normativa de manera más rigurosa. Esto no solo las protege frente a sanciones, sino que también promueve entornos laborales más seguros, justos y colaborativos.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Cadena de Suministro -->
+            <div class="team-member">
+                <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&h=400&fit=crop" alt="Cadena de Suministro" class="member-image">
+                <div class="member-info">
+                    <h3 class="member-name">🔗 CADENA DE SUMINISTRO ÉTICA</h3>
+                    <h4 class="member-title">RESPONSABILIDAD EXTENDIDA</h4>
+                    <p class="member-description">
+                        La ética debe extenderse, además, a toda la cadena de suministro minera, un eslabón fundamental que muchas veces es subestimado. Esta cadena, que abarca desde la obtención de materias primas hasta la entrega del producto final, debe ser gestionada con los mismos estándares éticos que la operación principal.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Selección de Proveedores -->
+            <div class="team-member">
+                <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=800&h=400&fit=crop" alt="Proveedores" class="member-image">
+                <div class="member-info">
+                    <h3 class="member-name">📦 SELECCIÓN DE PROVEEDORES</h3>
+                    <h4 class="member-title">CRITERIOS ÉTICOS</h4>
+                    <p class="member-description">
+                        Las empresas mineras deben evaluar a sus proveedores no solo por precio y calidad, sino también por su compromiso con prácticas laborales justas, la sostenibilidad ambiental y la responsabilidad social. Seleccionar proveedores éticos asegura que toda la cadena opere bajo principios responsables.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Trazabilidad -->
+            <div class="team-member">
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=400&fit=crop" alt="Trazabilidad" class="member-image">
+                <div class="member-info">
+                    <h3 class="member-name">🧾 TRAZABILIDAD Y TRANSPARENCIA</h3>
+                    <h4 class="member-title">REGISTRO Y VERIFICACIÓN
+                        <!-- Visión de Futuro -->
+        <div class="team-member">
+            <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=400&fit=crop" alt="Futuro Sostenible" class="member-image">
+            <div class="member-info">
+                <h3 class="member-name">🌟 VISIÓN DE FUTURO</h3>
+                <h4 class="member-title">DESARROLLO SOSTENIBLE</h4>
+                <p class="member-description">
+                    En definitiva, la ética en la minería es un pilar esencial para el desarrollo sostenible del sector. Adoptar y mantener prácticas responsables no solo fortalece a las empresas, sino que también genera beneficios reales para las comunidades y para el medio ambiente en su conjunto.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- GALERÍA GRID DINÁMICA -->
+<section class="gallery-section" id="proyectos">
+    <h2 class="section-title">Nuestros Proyectos</h2>
+    <div class="gallery-grid">
+        <div class="grid-item">
+            <img src="https://mine-class.com/wp-content/uploads/2021/08/adentrate-en-la-mnineria-subterranea.jpg" alt="Minería Subterránea">
+            <div class="grid-overlay">
+                <h3>Minería Subterránea</h3>
+                <p>Tecnología de vanguardia en extracción</p>
+            </div>
+        </div>
+
+        <div class="grid-item">
+            <img src="https://media.licdn.com/dms/image/v2/D5612AQHiMoVi4B74rw/article-cover_image-shrink_720_1280/B56ZrCdEFmHkAI-/0/1764198992749?e=2147483647&v=beta&t=jVEG5k01atgFWV0_OFNTMfDUWCsIpnGmQFiSTVkK9D0" alt="Actitud">
+            <div class="grid-overlay">
+                <h3>Actitud</h3>
+                <p>Eficiencia máxima</p>
+            </div>
+        </div>
+
+        <div class="grid-item">
+            <img src="https://www.redalyc.org/journal/849/84961237012/84961237012_gf12.png" alt="Seguridad">
+            <div class="grid-overlay">
+                <h3>Seguridad</h3>
+                <p>Prioridad número uno</p>
+            </div>
+        </div>
+
+        <div class="grid-item">
+            <img src="https://nuevamineria01.akamaized.net/revista/wp-content/uploads/2019/05/Trabajadores-mineros-1024x640.jpg" alt="Medio Ambiente">
+            <div class="grid-overlay">
+                <h3>Compromiso</h3>
+                <p>Me comprometo a anticipar posibles problemas y proponer soluciones antes de que afecten al equipo.</p>
+            </div>
+        </div>
+
+        <div class="grid-item">
+            <img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=400&h=400&fit=crop" alt="Innovación">
+            <div class="grid-overlay">
+                <h3>Innovación</h3>
+                <p>Futuro sostenible</p>
+            </div>
+        </div>
+
+        <div class="grid-item">
+            <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&h=400&fit=crop" alt="Comunidades">
+            <div class="grid-overlay">
+                <h3>Desarrollo Social</h3>
+                <p>Trabajando con comunidades</p>
+            </div>
+        </div>
+
+        <div class="grid-item">
+            <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=400&fit=crop" alt="Tecnología">
+            <div class="grid-overlay">
+                <h3>Tecnología</h3>
+                <p>Minería 4.0</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- HERO ALTERNATIVO -->
+<section class="hero-alt" id="sostenibilidad">
+    <div>
+        <h2>El futuro de la minería vuelve a sonreír</h2>
+        <p>Gracias al compromiso con el desarrollo sostenible</p>
+        <a href="https://dashboard-minero-qf5b.vercel.app" target="_blank" rel="noopener noreferrer" class="cta-button">Conoce más</a>
+    </div>
+</section>
+<!-- FOOTER -->
+<footer id="contacto">
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>Sobre Nosotros</h3>
+            <ul>
+                <li><a href="#">Quiénes somos</a></li>
+                <li><a href="#">Historia</a></li>
+                <li><a href="#">Valores</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>Proyectos</h3>
+            <ul>
+                <li><a href="#">En curso</a></li>
+                <li><a href="#">Completados</a></li>
+                <li><a href="#">Futuros</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>Contacto</h3>
+            <ul>
+                <li><a href="#">Email</a></li>
+                <li><a href="#">Teléfono</a></li>
+                <li><a href="#">Ubicación</a></li>
+            </ul>
+        </div>
+    </div>
+    <p>&copy; 2024 MINEREX. Todos los derechos reservados.</p>
+</footer>
+
+<script>
+    // Efecto scroll en header
+    window.addEventListener('scroll', function() {
+        const header = document.getElementById('header');
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+</script>
